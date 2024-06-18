@@ -1,0 +1,40 @@
+// Settings for VSCode
+//
+{
+    // General
+    "editor.wordWrap": "on",
+    "files.eol": "\n",
+    "files.trimTrailingWhitespace": true,
+    "files.associations": {
+        "*.json": "jsonc"
+    },
+
+    // The number of spaces a tab is equal to. This setting is overridden
+    // based on the file contents when `editor.detectIndentation` is true.
+    "editor.tabSize": 2,
+
+    // Insert spaces when pressing Tab. This setting is overriden
+    // based on the file contents when `editor.detectIndentation` is true.
+    "editor.insertSpaces": true,
+
+    // When opening a file, `editor.tabSize` and `editor.insertSpaces`
+    // will be detected based on the file contents. Set to false to keep
+    // the values you've explicitly set, above.
+    "editor.detectIndentation": false,
+
+    // Name: Trailing Spaces
+    // Id: shardulm94.trailing-spaces
+    // Description: Highlight trailing spaces and delete them in a flash!
+    // VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=shardulm94.trailing-spaces
+    "trailing-spaces.trimOnSave": true,
+
+    // Name: YAML
+    // Id: redhat.vscode-yaml
+    // Description: YAML Language Support by Red Hat, with built-in Kubernetes syntax support
+    // Publisher: Red Hat
+    // VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml
+    // "https://json.schemastore.org/github-issue-forms.json": "github-issue-forms.json",
+    "yaml.schemas": {
+        "./github-issue-forms-lp.json": ["../.github/ISSUE_TEMPLATE/*.yml"],
+    },
+}
