@@ -25,11 +25,17 @@ RUN apt-get install -y --no-install-recommends \
 # Save the version in an environment file
 RUN echo "${RUNNER_VERSION}" > /runner_version.env
 
-# # cd into the user directory, download and unzip the github actions runner
-# # && echo "${RUNNER_HASH} actions-runner-linux-${RUNNER_PLATFORM}-${RUNNER_VERSION}.tar.gz" | shasum -a 256 -c \
-# RUN cd /home/docker && mkdir actions-runner && cd actions-runner \
-#     && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${RUNNER_PLATFORM}-${RUNNER_VERSION}.tar.gz \
-#     && tar xzf ./actions-runner-linux-${RUNNER_PLATFORM}-${RUNNER_VERSION}.tar.gz
+# cd into the user directory, download and unzip the github actions runner
+# && echo "${RUNNER_HASH} actions-runner-linux-${RUNNER_PLATFORM}-${RUNNER_VERSION}.tar.gz" | shasum -a 256 -c \
+RUN cd /home/docker && mkdir actions-runner-linux-x64 && cd actions-runner-linux-x64 \
+    && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
+    && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
+RUN cd /home/docker && mkdir actions-runner-linux-arm && cd actions-runner-linux-arm \
+    && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-arm-${RUNNER_VERSION}.tar.gz \
+    && tar xzf ./actions-runner-linux-arm-${RUNNER_VERSION}.tar.gz
+RUN cd /home/docker && mkdir actions-runner-linux-arm64 && cd actions-runner-linux-arm64 \
+    && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-arm64-${RUNNER_VERSION}.tar.gz \
+    && tar xzf ./actions-runner-linux-arm64-${RUNNER_VERSION}.tar.gz
 
 # # install some additional dependencies
 # RUN chown -R docker ~docker && /home/docker/actions-runner/bin/installdependencies.sh
