@@ -11,27 +11,7 @@ GH_REPOSITORY=$GH_REPOSITORY
 GH_TOKEN=$GH_TOKEN
 
 # Setup the runner if not already done
-# && echo "${RUNNER_HASH} actions-runner-linux-${RUNNER_PLATFORM}-${RUNNER_VERSION}.tar.gz" | shasum -a 256 -c \
-# if [ ! -d /home/docker/actions-runner ]; then
-#   mkdir -p /home/docker/actions-runner-linux-x64
-#   mkdir -p /home/docker/actions-runner-linux-arm
-#   mkdir -p /home/docker/actions-runner-linux-arm64
-
-#   cd /home/docker/actions-runner-linux-x64
-#   curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
-#       && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
-
-#   cd /home/docker/actions-runner-linux-arm
-#   curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-arm-${RUNNER_VERSION}.tar.gz \
-#       && tar xzf ./actions-runner-linux-arm-${RUNNER_VERSION}.tar.gz
-
-#   cd /home/docker/actions-runner-linux-arm64
-#   curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-arm64-${RUNNER_VERSION}.tar.gz \
-#       && tar xzf ./actions-runner-linux-arm64-${RUNNER_VERSION}.tar.gz
-
 cd /home/docker
-#chown -R docker ~docker
-
 PLATFORM=`uname -m`
 echo PLATFORM="$PLATFORM"
 if [ "${PLATFORM}" = "aarch" ]; then
@@ -45,9 +25,6 @@ fi
 # install some additional dependencies
 echo "Changing permissions docker:docker to ./actions-runner"
 chown -R docker:docker /home/docker/actions-runner
-
-# fi
-
 
 # Go for the runner
 echo "Starting the runner"

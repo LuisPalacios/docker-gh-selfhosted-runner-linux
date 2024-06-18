@@ -3,17 +3,12 @@ FROM ubuntu:24.04
 
 #input GitHub runner version argument
 ARG RUNNER_VERSION
-ARG RUNNER_HASH
-#ARG RUNNER_PLATFORM
 ENV DEBIAN_FRONTEND=noninteractive
 
 LABEL Author="Luis Palacios"
-LABEL Email="luis.palacios.derqui@gmail.com"
 LABEL GitHub="https://github.com/LuisPalacios"
 LABEL BaseImage="ubuntu:24.04"
 LABEL RunnerVersion=${RUNNER_VERSION}
-LABEL RunnerHash=${RUNNER_HASH}
-#LABEL RunnerPlatform=${RUNNER_PLATFORM}
 
 # update the base packages + add a non-sudo user
 RUN apt-get update -y && apt-get upgrade -y && useradd -m docker
@@ -26,7 +21,6 @@ RUN apt-get install -y --no-install-recommends \
 RUN echo "${RUNNER_VERSION}" > /runner_version.env
 
 # cd into the user directory, download and unzip the github actions runner
-# && echo "${RUNNER_HASH} actions-runner-linux-${RUNNER_PLATFORM}-${RUNNER_VERSION}.tar.gz" | shasum -a 256 -c \
 RUN cd /home/docker && mkdir actions-runner-linux-x64 && cd actions-runner-linux-x64 \
     && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
     && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
@@ -36,9 +30,6 @@ RUN cd /home/docker && mkdir actions-runner-linux-arm && cd actions-runner-linux
 RUN cd /home/docker && mkdir actions-runner-linux-arm64 && cd actions-runner-linux-arm64 \
     && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-arm64-${RUNNER_VERSION}.tar.gz \
     && tar xzf ./actions-runner-linux-arm64-${RUNNER_VERSION}.tar.gz
-
-# # install some additional dependencies
-# RUN chown -R docker ~docker && /home/docker/actions-runner/bin/installdependencies.sh
 
 # add over the entrypoint.sh script
 ADD scripts/entrypoint.sh entrypoint.sh
