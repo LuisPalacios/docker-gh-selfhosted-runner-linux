@@ -4,6 +4,7 @@ FROM ubuntu:24.04
 #input GitHub runner version argument
 ARG RUNNER_VERSION
 ARG RUNNER_HASH
+#ARG RUNNER_PLATFORM
 ENV DEBIAN_FRONTEND=noninteractive
 
 LABEL Author="Luis Palacios"
@@ -12,6 +13,7 @@ LABEL GitHub="https://github.com/LuisPalacios"
 LABEL BaseImage="ubuntu:24.04"
 LABEL RunnerVersion=${RUNNER_VERSION}
 LABEL RunnerHash=${RUNNER_HASH}
+#LABEL RunnerPlatform=${RUNNER_PLATFORM}
 
 # update the base packages + add a non-sudo user
 RUN apt-get update -y && apt-get upgrade -y && useradd -m docker
@@ -20,15 +22,17 @@ RUN apt-get update -y && apt-get upgrade -y && useradd -m docker
 RUN apt-get install -y --no-install-recommends \
     curl nodejs wget unzip vim git jq build-essential libssl-dev libffi-dev python3 python3-venv python3-dev python3-pip
 
-# cd into the user directory, download and unzip the github actions runner
-# && echo "${RUNNER_HASH} actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz" | shasum -a 256 -c \
-RUN cd /home/docker && mkdir actions-runner && cd actions-runner \
-    && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
-    && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
+# Save the version in an environment file
+RUN echo "${RUNNER_VERSION}" > /runner_version.env
 
+# # cd into the user directory, download and unzip the github actions runner
+# # && echo "${RUNNER_HASH} actions-runner-linux-${RUNNER_PLATFORM}-${RUNNER_VERSION}.tar.gz" | shasum -a 256 -c \
+# RUN cd /home/docker && mkdir actions-runner && cd actions-runner \
+#     && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${RUNNER_PLATFORM}-${RUNNER_VERSION}.tar.gz \
+#     && tar xzf ./actions-runner-linux-${RUNNER_PLATFORM}-${RUNNER_VERSION}.tar.gz
 
-# install some additional dependencies
-RUN chown -R docker ~docker && /home/docker/actions-runner/bin/installdependencies.sh
+# # install some additional dependencies
+# RUN chown -R docker ~docker && /home/docker/actions-runner/bin/installdependencies.sh
 
 # add over the entrypoint.sh script
 ADD scripts/entrypoint.sh entrypoint.sh
